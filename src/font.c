@@ -1,5 +1,6 @@
 #include <stddef.h>
-#include <mem.h>
+#include <stdlib.h>
+#include <string.h>
 #include <draw/font.h>
 
 DrawFont *draw_font_new(void *mem, unsigned int glyph_width, unsigned int glyph_height) {

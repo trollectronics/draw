@@ -18,6 +18,8 @@ freely, subject to the following restrictions:
 	distribution.
 */
 
+#include <stdlib.h>
+#include <string.h>
 #include <stddef.h>
 #include <draw/utf8.h>
 
