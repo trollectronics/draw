@@ -50,10 +50,14 @@ void draw_rect_set_get(DrawRectSet *set, size_t rect, int *x1, int *y1, int *x2,
 	if(rect >= set->rects)
 		return;
 	
-	*x1 = set->rect[rect].x1;
-	*y1 = set->rect[rect].y1;
-	*x2 = set->rect[rect].x2;
-	*y2 = set->rect[rect].y2;
+	if(x1)
+		*x1 = set->rect[rect].x1;
+	if(y1)
+		*y1 = set->rect[rect].y1;
+	if(x2)
+		*x2 = set->rect[rect].x2;
+	if(y2)
+		*y2 = set->rect[rect].y2;
 }
 
 void draw_rect_set_draw(DrawRectSet *set, size_t rects) {
