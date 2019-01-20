@@ -3,6 +3,8 @@
 #include <string.h>
 #include <draw/line.h>
 #include <draw/pixel.h>
+#include <draw/color.h>
+#include <draw/screen.h>
 
 #define MIN(a, b) (((a) < (b) ? (a) : (b)))
 #define ABS(a) ((a) < 0 ? -(a) : (a))
@@ -79,9 +81,12 @@ void draw_line_set_draw(DrawLineSet *set, size_t lines) {
 		int dy = ABS(y2 - y1);
 		int sy = (y1 < y2) ? 1 : -1; 
 		int err = ((dx > dy) ? dx : -dy)/2, e2;
-
+		
+		int off = y1*DRAW_SCREEN_W + x1;
+		int off_y = (y1 < y2) ? DRAW_SCREEN_W : -DRAW_SCREEN_W;
+		
 		for(;;){
-			draw_pixel(x1, y1);
+			draw_framebuffer[off] = draw_color;
 			
 			if(x1 == x2 && y1 == y2)
 				break;
@@ -91,10 +96,12 @@ void draw_line_set_draw(DrawLineSet *set, size_t lines) {
 			if(e2 > -dx) {
 				err -= dy;
 				x1 += sx;
+				off += sx;
 			}
 			if(e2 < dy) {
 				err += dx;
 				y1 += sy;
+				off += off_y;
 			}
 		}
 	}
