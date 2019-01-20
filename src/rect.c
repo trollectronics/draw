@@ -3,6 +3,8 @@
 #include <string.h>
 #include <draw/rect.h>
 #include <draw/pixel.h>
+#include <draw/screen.h>
+#include <draw/color.h>
 
 #define MIN(a, b) (((a) < (b) ? (a) : (b)))
 #define MAX(a, b) (((a) > (b) ? (a) : (b)))
@@ -62,7 +64,8 @@ void draw_rect_set_get(DrawRectSet *set, size_t rect, int *x1, int *y1, int *x2,
 
 void draw_rect_set_draw(DrawRectSet *set, size_t rects) {
 	size_t i;
-	int x, y;
+	int y;
+	size_t off, off_end;
 	
 	if(!set)
 		return;
@@ -77,9 +80,13 @@ void draw_rect_set_draw(DrawRectSet *set, size_t rects) {
 		x2 = MAX(set->rect[i].x1, set->rect[i].x2);
 		y2 = MAX(set->rect[i].y1, set->rect[i].y2);
 
-		for(y = y1; y < y2; y++)
-			for(x = x1; x < x2; x++)
-				draw_pixel(x, y);
+		for(y = y1; y < y2; y++) {
+			off = DRAW_SCREEN_W*y;
+			off_end = off + x2;
+			for(off = off + x1; off < off_end; off++) {
+				draw_framebuffer[off] = draw_color;
+			}
+		}
 		
 	}
 }
