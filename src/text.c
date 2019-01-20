@@ -55,21 +55,36 @@ void draw_text_surface_draw(DrawTextSurface *surface) {
 	col = surface->x;
 	row = surface->y;
 	line_x = 0;
+	
+	int off_glyph;
+	int off;
+	int off_char;
+	
+	off = row*DRAW_SCREEN_W + col;
+	off_char = -(glyph_h*DRAW_SCREEN_W) + glyph_w;
+	
 	for(buf = surface->buf; (c = *buf); line_x += glyph_w, buf++) {
 		if(line_x + glyph_w > surface->linelen) {
+			/* Wrap line */
 			col = surface->x;
 			row += glyph_h;
+			off = row*DRAW_SCREEN_W + col;
 		}
 		
+		off_glyph = c * glyph_h;
+		
 		for (i = 0; i < glyph_h; i++) {
-			data = surface->font->mem[c * glyph_h + i];
+			data = surface->font->mem[off_glyph + i];
 			for (j = 0; j < glyph_w; j++) {
 				if(data & 1)
-					draw_framebuffer[(row + i) * DRAW_SCREEN_W + col + j] = fg;
+					draw_framebuffer[off] = fg;
 				data >>= 1;
+				off++;
 			}
+			off += DRAW_SCREEN_W - j;
 		}
 		col += glyph_w;
+		off += off_char;
 	}
 }
 
