@@ -2,6 +2,7 @@
 #define DRAW_LINE_H_
 
 #include <stddef.h>
+#include <draw/color.h>
 
 typedef struct DrawLine DrawLine;
 struct DrawLine {
@@ -19,6 +20,7 @@ struct DrawLineSet {
 	unsigned int thickness;
 };
 
+void draw_line_quick(int x1, int y1, int x2, int y2, DrawColor color);
 DrawLineSet *draw_line_set_new(size_t lines, unsigned int thickness);
 void draw_line_set_move(DrawLineSet *set, size_t line, int x1, int y1, int x2, int y2);
 void draw_line_set_get(DrawLineSet *set, size_t line, int *x1, int *y1, int *x2, int *y2);

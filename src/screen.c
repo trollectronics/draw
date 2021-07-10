@@ -1,11 +1,11 @@
 #include <peripheral.h>
 #include <draw/color.h>
-#include "main.h"
+#include <draw/screen.h>
 
 #define MIN(a, b) (((a) < (b) ? (a) : (b)))
 #define ABS(a) ((a) < 0 ? -(a) : (a))
 
-RTFColor *draw_framebuffer = (void *) 0x00080000UL;
+DrawColor *draw_framebuffer = (void *) 0x00080000UL;
 unsigned draw_screen_w = DRAW_SCREEN_HIGHRES_W;
 unsigned draw_screen_h = DRAW_SCREEN_HIGHRES_H;
 
@@ -17,16 +17,17 @@ DrawColor draw_backbuffer[DRAW_SCREEN_LOWRES_W*DRAW_SCREEN_LOWRES_H];
 
 void draw_screen_clear() {
 	int i;
-	uint32_t *to = (uint32_t *) pixbuf;
+	uint32_t *to = (uint32_t *) draw_framebuffer;
 	for(i = 0; i < draw_screen_w*draw_screen_h/4; i++)
 		*(to++) = 0x0;
+}
 
 void draw_screen_set_lowres() {
 	volatile uint32_t *vga_hw = (volatile uint32_t *) PERIPHERAL_VGA_BASE;
 	vga_hw[0] = 0x3;
 	vgactrlreg = 0x3;
 	draw_screen_w = DRAW_SCREEN_LOWRES_W;
-	draw_screen_h = DRAW_SCREEN_LOWES_H;
+	draw_screen_h = DRAW_SCREEN_LOWRES_H;
 	
 	//Move mouse out of the way
 	vga_hw[10] = 800;
