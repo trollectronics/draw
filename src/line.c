@@ -9,6 +9,37 @@
 #define MIN(a, b) (((a) < (b) ? (a) : (b)))
 #define ABS(a) ((a) < 0 ? -(a) : (a))
 
+void draw_line_quick(int x1, int y1, int x2, int y2, DrawColor col) {
+	int dx = ABS(x2 - x1);
+	int sx = (x1 < x2) ? 1 : -1;
+	int dy = ABS(y2 - y1);
+	int sy = (y1 < y2) ? 1 : -1; 
+	int err = ((dx > dy) ? dx : -dy)/2, e2;
+	
+	int bufindex = y1 * DRAW_SCREEN_W + x1;
+	int lineadder = DRAW_SCREEN_W*sy;
+	
+	for(;;){
+		draw_framebuffer[bufindex] = col;
+		
+		if(x1 == x2 && y1 == y2)
+			break;
+		
+		e2 = err;
+		
+		if(e2 > -dx) {
+			err -= dy;
+			x1 += sx;
+			bufindex += sx;
+		}
+		if(e2 < dy) {
+			err += dx;
+			y1 += sy;
+			bufindex += lineadder;
+		}
+	}
+}
+
 DrawLineSet *draw_line_set_new(size_t lines, unsigned int thickness) {
 	DrawLineSet *set = NULL;
 	DrawLine *line = NULL;
