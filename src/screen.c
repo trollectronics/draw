@@ -6,13 +6,13 @@
 #define ABS(a) ((a) < 0 ? -(a) : (a))
 
 DrawColor *draw_framebuffer = (void *) 0x00080000UL;
-unsigned draw_screen_w = DRAW_SCREEN_HIGHRES_W;
-unsigned draw_screen_h = DRAW_SCREEN_HIGHRES_H;
+int draw_screen_w = DRAW_SCREEN_HIGHRES_W;
+int draw_screen_h = DRAW_SCREEN_HIGHRES_H;
 
 static uint32_t vgactrlreg;
 
 
-DrawColor draw_backbuffer[DRAW_SCREEN_LOWRES_W*DRAW_SCREEN_LOWRES_H];
+DrawColor draw_backbuffer[512*1024];
 
 
 void draw_screen_clear() {

@@ -12,8 +12,8 @@
 #define DRAW_SCREEN_LOWRES_H 240
 
 extern DrawColor *draw_framebuffer;
-extern unsigned draw_screen_w;
-extern unsigned draw_screen_h;
+extern int draw_screen_w;
+extern int draw_screen_h;
 
 void draw_screen_clear();
 void draw_screen_set_lowres();
