@@ -18,6 +18,7 @@ DrawTextSurface *draw_text_surface_new(DrawFont *font, size_t bufsiz, unsigned i
 void draw_text_surface_free(DrawTextSurface *surface);
 void draw_text_surface_draw(DrawTextSurface *surface);
 void draw_text_surface_string_append(DrawTextSurface *surface, char *s);
+void draw_text_surface_move(DrawTextSurface *surface, int x, int y);
 void draw_text_surface_reset(DrawTextSurface *surface);
 
 #endif
